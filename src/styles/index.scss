@@ -1,0 +1,29 @@
+@import "reset.css";
+@import "mixin";
+
+body {
+  font-weight: 200;
+  font-family: "PingFang SC", Helvetica, '黑体', Arial, sans-serif;
+}
+
+@media (min-device-pixel-ratio: 1.5) {
+  .border-1px {
+    &::after {
+      transform: scaleY(.7);
+    }
+  }
+}
+
+@media (min-device-pixel-ratio: 2) {
+  .border-1px {
+    &::after {
+      transform: scaleY(.5);
+    }
+  }
+}
+
+// 激活的router标签
+.router-link-exact-active {
+  color: rgb(240, 20, 20);
+}
+

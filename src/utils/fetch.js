@@ -24,10 +24,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(resp => {
   return resp.data
 }, err => {
-  Notification({
-    title: '通信失败',
-    message: '网络通信异常，请检查!\nin fetch.js'
-  })
+  Notification({ title: '通信失败', message: '网络通信异常，请检查! in fetch.js' })
   return Promise.reject(err)
 })
 
