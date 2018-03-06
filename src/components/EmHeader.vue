@@ -29,12 +29,12 @@
         </div>
         
         <!-- 活动 -->
-          <div class='support' v-if='sellerInfo.supports&&sellerInfo.supports.length'>
-            <div class='support-brand' :class='classMap'></div>
-            {{sellerInfo.supports[0].description}}
-          </div>
-
-
+        <div class='support' v-if='sellerInfo.supports&&sellerInfo.supports.length'>
+          <div class='support-brand' :class='classMap'></div>
+          {{sellerInfo.supports[0].description}}
+        </div>
+      
+      
       </div>
     </div>
     
@@ -57,9 +57,11 @@
     </div>
     
     <!-- 商家详情 -->
-    <seller-detail v-show='sellerDetailShow'
-                   :sellerInfo='sellerInfo'
-                   @hideSellerDetail='hideSellerDetail'></seller-detail>
+    <transition name='fade'>
+      <seller-detail v-show='sellerDetailShow'
+                     :sellerInfo='sellerInfo'
+                     @hideSellerDetail='hideSellerDetail'></seller-detail>
+    </transition>
   </div>
 </template>
 
@@ -163,7 +165,6 @@
           margin-bottom: 10px;
           font-size: 12px;
         }
-        
         
         .support {
           font-size: 10px;

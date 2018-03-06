@@ -27,3 +27,11 @@ body {
   color: rgb(240, 20, 20);
 }
 
+// 默认过渡效果
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .1s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
