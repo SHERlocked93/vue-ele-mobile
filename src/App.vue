@@ -1,3 +1,4 @@
+<!--suppress HtmlUnknownTarget -->
 <template>
   <div id="app">
     
@@ -37,7 +38,8 @@
     name: 'App',
     data() {
       return {
-        sellerInfo: {}
+        sellerInfo: {}, // 商家信息
+        appFilterShow: false // 蒙层
       }
     },
     components: { EmHeader },
@@ -51,9 +53,10 @@
   @import "styles/mixin";
   
   #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: "微软雅黑", 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    z-index: 0;
     
     /* 选项卡 */
     .app-tab {

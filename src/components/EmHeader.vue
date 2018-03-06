@@ -8,25 +8,33 @@
 <!--suppress JSPotentiallyInvalidTargetOfIndexedPropertyAccess, HtmlUnknownTarget -->
 <template>
   <div class='header' @click='showSellerDetail'>
-    <!--店铺信息-->
+    <!-- 店铺信息 -->
     <div class='content-wrapper'>
+      
+      <!-- 商店图片 -->
       <div class='avatar'>
         <img :src='sellerInfo.avatar' alt='店铺图片'>
       </div>
       
+      <!-- 商店名 -->
       <div class='content'>
         <div class='title'>
           <div class='title-brand'></div>
           <div class='title-name'>{{sellerInfo.name}}</div>
         </div>
+        
+        <!-- 蜂鸟专送 -->
         <div class='desc'>
           {{sellerInfo.description}}/{{sellerInfo.deliveryTime}}分钟送达
         </div>
-        <div class='support' v-if='sellerInfo.supports&&sellerInfo.supports.length'>
-          <div class='support-brand' :class='classMap'></div>
-          {{sellerInfo.supports[0].description}}
-        </div>
-      
+        
+        <!-- 活动 -->
+          <div class='support' v-if='sellerInfo.supports&&sellerInfo.supports.length'>
+            <div class='support-brand' :class='classMap'></div>
+            {{sellerInfo.supports[0].description}}
+          </div>
+
+
       </div>
     </div>
     
@@ -50,6 +58,7 @@
     
     <!-- 商家详情 -->
     <seller-detail v-show='sellerDetailShow'
+                   :sellerInfo='sellerInfo'
                    @hideSellerDetail='hideSellerDetail'></seller-detail>
   </div>
 </template>
@@ -92,8 +101,7 @@
           this.sellerDetailShow = false
         })
       }
-    },
-    mounted() { }
+    }
   }
 </script>
 
@@ -156,8 +164,10 @@
           font-size: 12px;
         }
         
+        
         .support {
           font-size: 10px;
+          margin-bottom: 12px;
           .support-brand {
             display: inline-block;
             vertical-align: top;
