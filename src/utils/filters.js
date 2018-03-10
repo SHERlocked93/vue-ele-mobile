@@ -5,4 +5,7 @@
  */
 
 /* 活动类型 */
-export const activityTypeFilter = type => ['decrease', 'discount', 'guarantee', 'invoice', 'special'][type]
+export const activityTypeFilter = type => {
+  if (type < 0) return undefined
+  return ['decrease', 'discount', 'guarantee', 'invoice', 'special'][type]
+}

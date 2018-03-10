@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import * as Filters from 'utils/filters'
 
+import 'styles/reset.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'styles/index.scss'
 import 'assets/icon/iconfont.css'

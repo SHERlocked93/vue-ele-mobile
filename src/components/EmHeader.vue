@@ -7,7 +7,7 @@
 
 <!--suppress JSPotentiallyInvalidTargetOfIndexedPropertyAccess, HtmlUnknownTarget -->
 <template>
-  <div class='header' @click='showSellerDetail'>
+  <div class='header'>
     <!-- 店铺信息 -->
     <div class='content-wrapper'>
       
@@ -40,6 +40,7 @@
     
     <!-- 活动个数 -->
     <div class='activity'
+         @click='showSellerDetail'
          v-if='sellerInfo.supports'>
       {{sellerInfo.supports.length}}个<i class='iconfont el-icon-my-right'></i>
     </div>
@@ -115,6 +116,7 @@
     display: flex;
     color: white;
     background-color: rgba(7, 17, 27, .5);
+    flex-shrink: 0;
     flex-wrap: nowrap;
     flex-direction: column;
     justify-content: space-between;

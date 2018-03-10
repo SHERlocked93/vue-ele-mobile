@@ -26,7 +26,7 @@
         <div class='support'
              v-if='sellerInfo.supports&&sellerInfo.supports.length'
              v-for='sellerSupport in sellerInfo.supports'>
-          <div class='support-brand' :class='classMap(sellerSupport)'></div>
+          <activity-type :sellerType='sellerSupport.type'></activity-type>
           {{sellerSupport.description}}
         </div>
       </div>
@@ -48,13 +48,13 @@
 
 <script type='text/javascript'>
   import Stars from './stars'
-  import MouldTitle from './mould-title'
-  import { activityTypeFilter } from 'utils/filters'
+  import MouldTitle from './mouldTitle'
+  import ActivityType from './activityType'
   
   export default {
     name: 'EmSellerDetail',
     props: ['sellerInfo'],
-    components: { Stars, MouldTitle },
+    components: { Stars, MouldTitle, ActivityType },
     data() {
       return {}
     },
@@ -64,25 +64,12 @@
        */
       hideSellerDetail() {
         this.$emit('hideSellerDetail')
-      },
-      
-      /**
-       * 返回活动类型
-       * @returns {row} 活动类型
-       * @param sup
-       */
-      classMap(sup) {
-        return this.sellerInfo.supports &&
-          this.sellerInfo.supports.length &&
-          activityTypeFilter(sup.type)
       }
     }
   }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "~@/styles/mixin";
-  
   .sd {
     position: fixed;
     top: 0;
@@ -122,28 +109,6 @@
           line-height: 12px;
           font-weight: 200;
           margin-bottom: 12px;
-          .support-brand {
-            display: inline-block;
-            vertical-align: top;
-            width: 12px;
-            height: 12px;
-            margin-right: 4px;
-            &.decrease {
-              @include bg-img('~assets/img/decrease_1');
-            }
-            &.discount {
-              @include bg-img('~assets/img/discount_1');
-            }
-            &.guarantee {
-              @include bg-img('~assets/img/guarantee_1');
-            }
-            &.invoice {
-              @include bg-img('~assets/img/invoice_1');
-            }
-            &.special {
-              @include bg-img('~assets/img/special_1');
-            }
-          }
           
           .support-name {
             display: inline-block;

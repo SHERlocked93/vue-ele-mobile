@@ -1,8 +1,8 @@
-@import "reset.css";
 @import "mixin";
 
 body {
   font-weight: 200;
+  font-size: 12px;
   font-family: "PingFang SC", Helvetica, '黑体', Arial, sans-serif;
 }
 
@@ -29,7 +29,7 @@ body {
 
 // 默认过渡效果
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .1s;
+  transition: opacity .2s;
 }
 
 .fade-enter, .fade-leave-to {
