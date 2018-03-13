@@ -27,7 +27,7 @@ body {
   color: rgb(240, 20, 20);
 }
 
-// 默认过渡效果
+// 默认过渡效果 - fade
 .fade-enter-active, .fade-leave-active {
   transition: all .2s;
   transform: translate3d(0, 0, 0);
@@ -35,5 +35,16 @@ body {
 
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+// 默认过渡效果 - move
+.move-enter, .move-leave-to {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+
+.move-enter-to, .move-leave {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 

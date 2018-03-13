@@ -1,8 +1,8 @@
 /**
- * 创建于 2018/3/13
- * 作者: SHERlocked93
- * 功能: 商品
- */
+* 创建于 2018/3/13
+* 作者: SHERlocked93
+* 功能: 商品
+*/
 
 
 <template>
@@ -28,12 +28,15 @@
     <!-- 右边菜单详情 -->
     <div class='foods-cont' ref='wrapperFood'>
       <div>
-        <div v-for='item in goodsData' :key='item.name+2' class='food-list food-list-hook'>
+        <div v-for='item in goodsData'
+             :key='item.name+2'
+             class='food-list food-list-hook'>
           <!-- 套餐分类 -->
           <h3 class='food-title'>{{item.name}}</h3>
           <!-- 套餐详情 -->
           <div class='food-content'>
-            <div v-for='food in item.foods' class='food-item'>
+            <div v-for='food in item.foods' class='food-item'
+                 @click='selectFood(food, $event)'>
               <!-- 商品图片 -->
               <div class='food-img'>
                 <img :src='food.image' alt='image'>
@@ -69,6 +72,9 @@
                  :min-price='sellerInfo.minPrice'
                  :select-foods='selectFoods'></shop-cart>
     </div>
+    
+    <!-- 商品详情页 -->
+    <food-detail :food='selectedFood' ref='foodDetail'></food-detail>
   </div>
 </template>
 
@@ -78,10 +84,11 @@
   import BScroll from 'better-scroll'
   import ShopCart from './shopCart'
   import CartControl from './cartControl'
+  import FoodDetail from './EmFoodDetail'
   
   export default {
     name: 'em-goods',
-    components: { ActivityType, ShopCart, CartControl },
+    components: { ActivityType, ShopCart, CartControl, FoodDetail },
     props: {
       sellerInfo: {
         type: Object
@@ -91,7 +98,8 @@
       return {
         goodsData: [], // 商品
         listHeight: [], // 高度
-        scrollY: 0 // 跟踪当前右侧滚动距离
+        scrollY: 0, // 跟踪当前右侧滚动距离
+        selectedFood: {} // 选中打开详情页的商品
       }
     },
     computed: {
@@ -159,6 +167,17 @@
         const foodList = this.$refs.wrapperFood.getElementsByClassName('food-list-hook')
         const el = foodList[idx]
         this.foodScroll.scrollToElement(el, 300)
+      },
+      
+      /**
+       * 选择了商品，展示商品详情页
+       * @param food 商品对象
+       * @param ev 事件
+       */
+      selectFood(food, ev) {
+        if (!event._constructed) return
+        this.selectedFood = food
+        this.$refs.foodDetail.thisShow()
       }
     },
     mounted() {
