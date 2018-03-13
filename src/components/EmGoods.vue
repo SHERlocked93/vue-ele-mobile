@@ -1,3 +1,10 @@
+/**
+ * 创建于 2018/3/13
+ * 作者: SHERlocked93
+ * 功能: 商品
+ */
+
+
 <template>
   <div class='goods'>
     <!-- 左边菜单 -->
@@ -6,7 +13,8 @@
         <div v-for='(item, $index) in goodsData'
              :key='item.name+1'
              class='menu-item'
-             :class='{"menu-current":currentIndex===$index}'>
+             :class='{"menu-current":currentIndex===$index}'
+             @click='selectMenu($index, $event)'>
           <div>
             <activity-type v-show='item.type>0'
                            :sellerType='item.type'
@@ -15,18 +23,17 @@
           </div>
         </div>
       </div>
-    
     </div>
     
     <!-- 右边菜单详情 -->
     <div class='foods-cont' ref='wrapperFood'>
       <div>
         <div v-for='item in goodsData' :key='item.name+2' class='food-list food-list-hook'>
-          <!-- 各种套餐 -->
+          <!-- 套餐分类 -->
           <h3 class='food-title'>{{item.name}}</h3>
           <!-- 套餐详情 -->
           <div class='food-content'>
-            <div class='food-item' v-for='food in item.foods'>
+            <div v-for='food in item.foods' class='food-item'>
               <!-- 商品图片 -->
               <div class='food-img'>
                 <img :src='food.image' alt='image'>
@@ -45,17 +52,23 @@
                   <span v-show='food.oldPrice' class='food-oldprice'>￥{{food.oldPrice}}</span>
                 </div>
               </div>
+              
+              <!-- 购物车增加减少 -->
+              <div class='cart-control-wrapper'>
+                <cart-control :food='food'></cart-control>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    
     </div>
     
     <!-- 底部 -->
-    <!--<div class='app-footer'>-->
-    <!--底部-->
-    <!--</div>-->
+    <div class='app-footer'>
+      <shop-cart :delivery-price='sellerInfo.deliveryPrice'
+                 :min-price='sellerInfo.minPrice'
+                 :select-foods='selectFoods'></shop-cart>
+    </div>
   </div>
 </template>
 
@@ -63,10 +76,17 @@
   import { goods as getGoods } from 'api/conn'
   import ActivityType from './activityType'
   import BScroll from 'better-scroll'
+  import ShopCart from './shopCart'
+  import CartControl from './cartControl'
   
   export default {
     name: 'em-goods',
-    components: { ActivityType },
+    components: { ActivityType, ShopCart, CartControl },
+    props: {
+      sellerInfo: {
+        type: Object
+      }
+    },
     data() {
       return {
         goodsData: [], // 商品
@@ -88,6 +108,20 @@
           }
         }
         return 0
+      },
+      
+      /**
+       * 计算数量不为0的food
+       * @returns {Array} 选择了的foods
+       */
+      selectFoods() {
+        const foods = []
+        this.goodsData.forEach(good => {
+          good.foods.forEach(food => {
+            if (food.count) foods.push(food)
+          })
+        })
+        return foods
       }
     },
     methods: {
@@ -95,8 +129,8 @@
        * 初始化滚动
        */
       initScroll() {
-        this.menuScroll = new BScroll(this.$refs.wrapperMenu, {})
-        this.foodScroll = new BScroll(this.$refs.wrapperFood, { probeType: 3 })
+        this.menuScroll = new BScroll(this.$refs.wrapperMenu, { click: true })
+        this.foodScroll = new BScroll(this.$refs.wrapperFood, { click: true, probeType: 3 })
         this.foodScroll.on('scroll', pos => {
           this.scrollY = Math.abs(~~(pos.y))
         })
@@ -113,6 +147,18 @@
           height += food.clientHeight
           this.listHeight.push(height)
         }
+      },
+      
+      /**
+       * 点击左侧按钮
+       * @param idx 点击左侧菜单的索引
+       * @param ev 点击事件
+       */
+      selectMenu(idx, ev) {
+        if (!ev._constructed) return
+        const foodList = this.$refs.wrapperFood.getElementsByClassName('food-list-hook')
+        const el = foodList[idx]
+        this.foodScroll.scrollToElement(el, 300)
       }
     },
     mounted() {
@@ -135,7 +181,7 @@
   .goods {
     position: absolute;
     top: 174px;
-    bottom: 46px;
+    bottom: 48px;
     display: flex;
     flex-flow: row;
     width: 100vw;
@@ -181,6 +227,8 @@
       flex-grow: 1;
       
       .food-list {
+        
+        /* 套餐分类 */
         .food-title {
           padding-left: 14px;
           height: 26px;
@@ -189,9 +237,12 @@
           color: $grey;
           background: #f3f5f7;
         }
+        
+        /* 套餐详情 */
         .food-content {
           .food-item {
             display: flex;
+            position: relative;
             flex-flow: row;
             align-items: flex-start;
             padding: 18px;
@@ -200,6 +251,7 @@
               @include border-none;
             }
             
+            /* 商品图片 */
             .food-img {
               margin-right: 10px;
               flex: 0 0 57px;
@@ -209,6 +261,7 @@
               }
             }
             
+            /* 商品信息 */
             .food-info {
               flex-grow: 1;
               .food-name {
@@ -225,6 +278,7 @@
                 margin-bottom: 7px;
               }
               .food-desc {
+                line-height: 13px;
               }
               .food-extra {
                 line-height: 10px;
@@ -244,17 +298,24 @@
                 }
               }
             }
+            
+            .cart-control-wrapper {
+              position: absolute;
+              right: 0;
+              bottom: 12px;
+            }
           }
         }
       }
     }
     
     /* 底部 */
-    /*.app-footer {*/
-    /*position: fixed;*/
-    /*bottom: 0;*/
-    /*width: 100vw;*/
-    /*background-color: wheat;*/
-    /*}*/
+    .app-footer {
+      position: fixed;
+      height: 48px;
+      bottom: 0;
+      width: 100vw;
+      z-index: 20;
+    }
   }
 </style>

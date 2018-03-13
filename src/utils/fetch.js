@@ -9,7 +9,7 @@ import { Notification } from 'element-ui'
 
 const service = Axios.create({
   baseURL: process.env.BASE_API,
-  timeout: 5000
+  timeout: 10000
 })
 
 /* request 拦截器 */

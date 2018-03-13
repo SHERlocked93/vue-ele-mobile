@@ -3,7 +3,7 @@
 body {
   font-weight: 200;
   font-size: 12px;
-  font-family: "PingFang SC", Helvetica, '黑体', Arial, sans-serif;
+  font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', Helvetica, '微软雅黑', '黑体', Arial, sans-serif;
 }
 
 @media (min-device-pixel-ratio: 1.5) {
@@ -29,9 +29,11 @@ body {
 
 // 默认过渡效果
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .2s;
+  transition: all .2s;
+  transform: translate3d(0, 0, 0);
 }
 
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
+

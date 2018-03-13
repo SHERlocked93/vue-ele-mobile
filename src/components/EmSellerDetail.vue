@@ -78,7 +78,7 @@
     height: 100vh;
     overflow: auto;
     color: #fff;
-    background-color: rgba(7, 17, 27, .8);
+    background-color: rgba(7, 17, 27, .9);
     -webkit-backdrop-filter: blur(10px);
     display: flex;
     flex-flow: column;
