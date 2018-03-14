@@ -11,7 +11,7 @@
     <transition name='move24px'>
       <div class='cc-decrease'
            v-show='food.count>0'
-           @click='decreaseCart'>
+           @click.stop.prevent='decreaseCart'>
         <i class='el-icon-my-minuscircleoutline'></i>
       </div>
     </transition>
@@ -26,7 +26,7 @@
     
     <!-- 增加 -->
     <div class='cc-add'
-         @click='addCart'>
+         @click.stop.prevent='addCart'>
       <i class='el-icon-my-plus'></i>
     </div>
   </div>

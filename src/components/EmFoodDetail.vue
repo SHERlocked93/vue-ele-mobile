@@ -13,8 +13,8 @@
           <!-- 图片 -->
           <div class='img-header'>
             <img :src='food.image' alt='图片'>
-            <div class='el-back'>
-              <i class='el-icon-my-left' @click='thisHide'></i>
+            <div class='el-back' @click='thisHide'>
+              <i class='el-icon-my-left'></i>
             </div>
           </div>
           
@@ -29,28 +29,70 @@
               <span class='food-currprice'>￥{{food.price}}</span>
               <span v-show='food.oldPrice' class='food-oldprice'>￥{{food.oldPrice}}</span>
             </div>
+            <!-- 购物车 -->
+            <div class='cartcontrol-wrapper'>
+              <cart-control :food='food'></cart-control>
+            </div>
+            
+            <div class='buy-this'
+                 v-show='!food.count'
+                 @click.stop.prevent='addFirst(food, $event)'>加入购物车
+            </div>
           </div>
-        </div>
+          
+          <!-- 商品介绍 -->
+          <split v-show='food.info'></split>
+          <div class='food-info' v-show='food.info'>
+            <div class='title'>商品信息</div>
+            <div class='text'>{{food.info}}</div>
+          </div>
+          
+          <!-- 商品评价 -->
+          <split></split>
+          <div class='food-rating'>
+            <div class='title'>商品评价</div>
+            <rating-select :selectType='selectType'
+                           :onlyContent='onlyContent'
+                           :desc='desc'
+                           :ratings='food.ratings'></rating-select>
+          </div>
         
-        <!-- 商品介绍 -->
+        </div>
       </div>
-    
     </div>
   </transition>
 
 </template>
 
 <script type='text/javascript'>
+  import Split from './split'
   import BScroll from 'better-scroll'
+  import CartControl from './cartControl'
+  import RatingSelect from './ratingSelect'
+  
+  import EventBus from 'utils/eventBus'
+  
+  /* eslint-disable no-unused-vars */
+  const POSITIVE = 0
+  const NEGATIVE = 1
+  const ALL = 2
   
   export default {
     name: 'em-food-detail',
     props: {
       food: { type: Object }
     },
+    components: { CartControl, Split, RatingSelect },
     data() {
       return {
-        showFlag: true // 商品详情页是否显示flag boolean
+        showFlag: true, // 商品详情页是否显示flag boolean
+        selectType: ALL,
+        onlyContent: true,
+        desc: {
+          all: '全部',
+          positive: '推介',
+          negative: '吐槽'
+        }
       }
     },
     methods: {
@@ -59,6 +101,8 @@
        */
       thisShow() {
         this.showFlag = true
+        this.selectType = ALL
+        this.onlyContent = true
         this.$nextTick(() => {
           if (!this.foodDetailScroll) {
             this.foodDetailScroll = new BScroll(this.$refs.foodDetail, { click: true })
@@ -71,6 +115,17 @@
        */
       thisHide() {
         this.showFlag = false
+      },
+      
+      /**
+       * 添加当前商品到购物车
+       * @param food 当前商品
+       * @param ev 事件对象
+       */
+      addFirst(food, ev) {
+        if (!ev._constructed) return
+        EventBus.$emit('cartAdd', ev.target)
+        this.$set(food, 'count', 1)
       }
     }
   }
@@ -78,6 +133,7 @@
 
 <style rel="stylesheet/scss" lang="scss" scoped>
   $grey: rgb(147, 153, 159);
+  $dark-grey: rgb(7, 17, 27);
   
   .food-detail {
     position: fixed;
@@ -93,6 +149,7 @@
     /* 商品详情 */
     .food-content {
       background-color: #fff;
+      
       /* 图片 */
       .img-header {
         height: 0;
@@ -131,12 +188,14 @@
       /* 内容 */
       .content {
         padding: 18px;
+        position: relative;
+        
         .title {
           line-height: 14px;
           margin-bottom: 8px;
           font-size: 14px;
           font-weight: 700;
-          color: rgb(7, 17, 27);
+          color: $dark-grey;
         }
         .detail {
           margin-bottom: 18px;
@@ -164,8 +223,58 @@
             color: $grey;
           }
         }
+        
+        /* + */
+        .cartcontrol-wrapper {
+          position: absolute;
+          right: 12px;
+          bottom: 12px;
+        }
+        
+        /* 加入购物车 */
+        .buy-this {
+          position: absolute;
+          right: 18px;
+          bottom: 18px;
+          z-index: 12;
+          height: 24px;
+          line-height: 24px;
+          padding: 0 12px;
+          border-radius: 12px;
+          font-size: 10px;
+          color: #fff;
+          background-color: rgb(0, 160, 220);
+        }
+      }
+      
+      /* 商品介绍 */
+      .food-info {
+        padding: 18px;
+        .title {
+          font-size: 14px;
+          line-height: 14px;
+          margin-bottom: 6px;
+          color: $dark-grey;
+        }
+        .text {
+          line-height: 24px;
+          padding: 0 8px;
+          font-weight: 200;
+          font-size: 12px;
+          color: rgb(77, 85, 93);
+        }
+      }
+      
+      /* 商品评价 */
+      .food-rating {
+        padding-top: 18px;
+        .title {
+          line-height: 14px;
+          margin-left: 18px;
+          font-size: 14px;
+          color: $dark-grey;
+        }
       }
     }
-    
   }
 </style>

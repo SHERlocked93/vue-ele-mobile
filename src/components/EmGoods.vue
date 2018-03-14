@@ -255,6 +255,7 @@
           border-left: 2px solid #d9dde1;
           color: $grey;
           background: #f3f5f7;
+          position: -webkit-sticky;
         }
         
         /* 套餐详情 */

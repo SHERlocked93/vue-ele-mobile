@@ -5,7 +5,6 @@
  */
 
 import Axios from 'axios'
-import { Notification } from 'element-ui'
 
 const service = Axios.create({
   baseURL: process.env.BASE_API,
@@ -24,7 +23,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(resp => {
   return resp.data
 }, err => {
-  Notification({ title: '通信失败', message: '网络通信异常，请检查! in fetch.js' })
+  console.error({ title: '通信失败', message: `网络通信异常，请检查! in fetch.js ${err}` })
   return Promise.reject(err)
 })
 

@@ -245,7 +245,7 @@
       .iconfont {
         position: absolute;
         right: 10px;
-        bottom: 8px;
+        bottom: 1px;
       }
     }
     
