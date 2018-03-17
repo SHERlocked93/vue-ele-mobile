@@ -51,10 +51,33 @@
           <split></split>
           <div class='food-rating'>
             <div class='title'>商品评价</div>
+            
+            <!-- 只看有内容的评价 -->
             <rating-select :selectType='selectType'
                            :onlyContent='onlyContent'
                            :desc='desc'
-                           :ratings='food.ratings'></rating-select>
+                           :ratings='food.ratings'
+                           @changeSelectType='changeSelectType'
+                           @toggleOnlyContent='toggleOnlyContent'></rating-select>
+            
+            <!-- 评价s -->
+            <div class='rating-wrapper'>
+              <div v-show='food.ratings && food.ratings.length'>
+                <div v-for='rating in food.ratings'
+                     v-show='needShow(rating.rateType, rating.text)'
+                     class='rating-item'>
+                  <div class='user'>
+                    <span class='name'>{{rating.username}}</span>
+                    <img :src='rating.avatar' alt='头像' class='avatar'>
+                  </div>
+                  <div class='time'>{{rating.rateTime | formatTime('yyyy-MM-dd hh:mm:ss')}}</div>
+                  <p class='text'>
+                    <i :class='{"el-icon-my-thumb-up":rating.rateType===0,"el-icon-my-thumb-down":rating.rateType===1}'></i>{{rating.text}}
+                  </p>
+                </div>
+              </div>
+              <div v-show='!food.ratings || !food.ratings.length' class='no-rating'>暂无评价</div>
+            </div>
           </div>
         
         </div>
@@ -85,7 +108,7 @@
     components: { CartControl, Split, RatingSelect },
     data() {
       return {
-        showFlag: true, // 商品详情页是否显示flag boolean
+        showFlag: false, // 商品详情页是否显示flag boolean
         selectType: ALL,
         onlyContent: true,
         desc: {
@@ -103,6 +126,7 @@
         this.showFlag = true
         this.selectType = ALL
         this.onlyContent = true
+        
         this.$nextTick(() => {
           if (!this.foodDetailScroll) {
             this.foodDetailScroll = new BScroll(this.$refs.foodDetail, { click: true })
@@ -126,14 +150,44 @@
         if (!ev._constructed) return
         EventBus.$emit('cartAdd', ev.target)
         this.$set(food, 'count', 1)
+      },
+      
+      /**
+       * 改变选择的类型
+       * @param type
+       */
+      changeSelectType(type) {
+        this.selectType = type
+      },
+      
+      /**
+       * 切换是否只看有内容的评论
+       * @param content
+       */
+      toggleOnlyContent(content) {
+        this.onlyContent = content
+      },
+      
+      /**
+       * 评论是否显示
+       * @param type
+       * @param text
+       */
+      needShow(type, text) {
+        if (this.onlyContent && !text) return false
+        if (this.selectType === ALL) return true
+        else return type === this.selectType
       }
     }
   }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
+  @import '~styles/mixin';
+  
   $grey: rgb(147, 153, 159);
   $dark-grey: rgb(7, 17, 27);
+  $light-grey: rgba(7, 17, 27, .1);
   
   .food-detail {
     position: fixed;
@@ -273,6 +327,64 @@
           margin-left: 18px;
           font-size: 14px;
           color: $dark-grey;
+        }
+        
+        .rating-wrapper {
+          padding: 0 18px;
+          
+          .rating-item {
+            position: relative;
+            padding: 16px 0;
+            @include border-1px($light-grey);
+            
+            .user {
+              position: absolute;
+              right: 0;
+              top: 16px;
+              font-size: 0;
+              line-height: 12px;
+              
+              .name {
+                display: inline-block;
+                vertical-align: center;
+                color: $grey;
+                margin-right: 6px;
+                font-size: 10px;
+              }
+              .avatar {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+              }
+            }
+            .time {
+              font-size: 10px;
+              line-height: 12px;
+              margin-bottom: 6px;
+              color: $grey;
+            }
+            .text {
+              line-height: 16px;
+              font-size: 12px;
+              color: $dark-grey;
+              [class^=el-icon-my] {
+                font-size: 12px;
+                margin-right: 4px;
+              }
+              .el-icon-my-thumb-up {
+                color: rgb(0, 160, 220);
+              }
+              .el-icon-my-thumb-down {
+                color: $grey;
+              }
+            }
+          }
+          
+          .no-rating {
+            padding: 16px 0;
+            font-size: 12px;
+            color: $grey;
+          }
         }
       }
     }
