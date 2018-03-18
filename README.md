@@ -1,5 +1,7 @@
 # vue-ele-mobile
-一个使用vue搭建的移动端饿了么项目，
+一个使用vue搭建的移动端饿了么项目，原项目是vue1.0的，这是vue2.5.2重新写的一版
+
+预览的时候请切换到移动端方式预览  F12 -> Toggle Device Toolbar 或 Ctrl + Shift + M
 
 > 技术栈：vue2.5.2 + vue-router + axios + better-scroll
 
