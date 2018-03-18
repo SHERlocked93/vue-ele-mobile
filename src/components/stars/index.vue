@@ -75,13 +75,13 @@
           margin-right: 0;
         }
         &.on {
-          @include bg-img('star48_on')
+          @include bg-img('~assets/img/star48_on')
         }
         &.half {
-          @include bg-img('star48_half')
+          @include bg-img('~assets/img/star48_half')
         }
         &.off {
-          @include bg-img('star48_off')
+          @include bg-img('~assets/img/star48_off')
         }
       }
     }
@@ -97,13 +97,13 @@
           margin-right: 0;
         }
         &.on {
-          @include bg-img('star36_on')
+          @include bg-img('~assets/img/star36_on')
         }
         &.half {
-          @include bg-img('star36_half')
+          @include bg-img('~assets/img/star36_half')
         }
         &.off {
-          @include bg-img('star36_off')
+          @include bg-img('~assets/img/star36_off')
         }
       }
     }
@@ -119,13 +119,13 @@
           margin-right: 0;
         }
         &.on {
-          @include bg-img('star24_on')
+          @include bg-img('~assets/img/star24_on')
         }
         &.half {
-          @include bg-img('star24_half')
+          @include bg-img('~assets/img/star24_half')
         }
         &.off {
-          @include bg-img('star24_off')
+          @include bg-img('~assets/img/star24_off')
         }
       }
     }
