@@ -9,7 +9,7 @@
 
 ## 预览
 
-![]()
+![预览](https://github.com/SHERlocked93/vue-ele-mobile/blob/master/src/assets/preview1.gif)
 
 ## Build Setup
 
