@@ -23,9 +23,10 @@
   export default {
     name: 'stars',
     props: {
-      // 星星的size大小
+      // 星星的size大小，可以为24、36、48
       size: {
-        type: Number
+        type: Number,
+        default: 36
       },
       score: {
         type: Number

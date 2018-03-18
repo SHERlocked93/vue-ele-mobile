@@ -52,7 +52,7 @@
           <div class='food-rating'>
             <div class='title'>商品评价</div>
             
-            <!-- 只看有内容的评价 -->
+            <!-- 评价分类 -->
             <rating-select :selectType='selectType'
                            :onlyContent='onlyContent'
                            :desc='desc'

@@ -20,7 +20,7 @@
     
     <!-- 内容区 -->
     <div class='app-content'>
-      <router-view :sellerInfo='sellerInfo'/>
+      <router-view :sellerInfo='sellerInfo'></router-view>
     </div>
   
   </div>
