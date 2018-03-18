@@ -1,6 +1,9 @@
 # vue-ele-mobile
+一个使用vue搭建的移动端饿了么项目，
 
-> ele mobile demo with vue
+> 技术栈：vue2.5.2 + vue-router + axios + better-scroll
+
+> 原课程：https://coding.imooc.com/class/evaluation/74.html
 
 ## Build Setup
 
