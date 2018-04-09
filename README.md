@@ -7,6 +7,8 @@
 
 > 原课程：https://coding.imooc.com/class/evaluation/74.html
 
+[项目预览](http://www.sherlocked93.club/vue-ele-mobile)
+
 ## 预览
 
 ![预览](https://github.com/SHERlocked93/vue-ele-mobile/blob/master/src/assets/preview1.gif)
